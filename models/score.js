@@ -2,16 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
-    name: {
+    sub: {
         type: String,
         required: true
     },
     coins: {
         type: Number, 
-        required: true
-    },
-    wins: {
-        type: Number,
         required: true
     }
 }, { timestamps: true })

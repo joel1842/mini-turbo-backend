@@ -6,7 +6,17 @@ const user = process.env.MONGO_USER
 const pass = process.env.MONGO_PASS
 const mongoose = require('mongoose')
 const uri = `mongodb+srv://${user}:${pass}@mini-turbo-database.fszjr.mongodb.net/mini-turbo-database?retryWrites=true&w=majority`;
-const Score = require('./models/score')
+const scoreRoutes = require('./routes/scoreRoutes')
+const userRoutes = require('./routes/userRoutes')
+
+app.use(express.json())
+app.use((req, res, next) => {
+    res.set("Access-Control-Allow-Origin", "*")
+    res.set("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, X-Custom-Header, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization")
+    res.set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+    res.set("Access-Control-Allow-Credentials", "true")
+    next()
+})
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
@@ -19,22 +29,9 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log(err)
     })
 
-app.get('/addscore', (req, res) => {
-    const newscore = new Score({
-        name: 'Joel',
-        coins: 2000,
-        wins: 5
-    })
+app.use('/score', scoreRoutes)
 
-    newscore.save()
-        .then((result) => {
-            res.send(result)
-            console.log('Added new score!')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
+app.use('/user', userRoutes)
 
 
 
