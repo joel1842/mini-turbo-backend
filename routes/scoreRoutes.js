@@ -26,30 +26,29 @@ router
         })
     })
 
-    .post('/getscore/:sub/', (req, res) => {
+    .get('/getscore/:sub/', (req, res) => {
 
         Score.find({sub: req.params.sub})
         .then((result) => {
-            if (result.length === 0) {
-                console.log("No results")
-                const newscore = new Score({
-                    sub: req.params.sub,
-                    coins: 1000,
-                    wins: 0
-                })
-                newscore.save()
-                .then((result) => {
-                    res.send(result)
-                    console.log('Added new score!')
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            } else {
-                console.log(result)
-                res.send(result)
-            }
+            res.send(result)
         }).catch((err) => {
+            console.log(err)
+        })
+    })
+
+    .post('/newuser/', (req, res) => {
+        const newscore = new Score({
+            name: req.body.name,
+            sub: req.body.sub,
+            coins: 1000,
+            wins: 0
+        })
+        newscore.save()
+        .then((result) => {
+            res.end()
+            console.log('Added new user!')
+        })
+        .catch((err) => {
             console.log(err)
         })
     })

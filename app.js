@@ -7,7 +7,6 @@ const pass = process.env.MONGO_PASS
 const mongoose = require('mongoose')
 const uri = `mongodb+srv://${user}:${pass}@mini-turbo-database.fszjr.mongodb.net/mini-turbo-database?retryWrites=true&w=majority`;
 const scoreRoutes = require('./routes/scoreRoutes')
-const userRoutes = require('./routes/userRoutes')
 
 app.use(express.json())
 app.use((req, res, next) => {
@@ -30,8 +29,6 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 app.use('/score', scoreRoutes)
-
-app.use('/user', userRoutes)
 
 
 
